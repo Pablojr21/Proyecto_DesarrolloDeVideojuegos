@@ -10,8 +10,12 @@ public class caballero : MonoBehaviour
     private Animator animator;
     private SpriteRenderer spriteRenderer;
 
-    public float velocidadMovimiento = 5f;
+    public float velocidadMovimiento = 3f;
     private bool enSuelo = true;
+    public GameMananger gameMananger; 
+
+    public float inputHorizontal; // <- Esto lo usará el GameManager
+
 
     void Start()
     {
@@ -30,7 +34,7 @@ public class caballero : MonoBehaviour
 
 
         // Actualiza el parámetro "velocidad" en el Animator
-        animator.SetFloat("velocidad", Mathf.Abs(movimiento));  
+        animator.SetFloat("velocidad", Mathf.Abs(movimiento));
 
 
         // Girar sprite segun direccion
@@ -58,6 +62,9 @@ public class caballero : MonoBehaviour
             animator.SetTrigger("atacar");
         }
 
+        // Agrega esta línea al final de Update
+        inputHorizontal = Input.GetAxisRaw("Horizontal");
+
     }
 
 
@@ -68,5 +75,13 @@ public class caballero : MonoBehaviour
             enSuelo = true;
             animator.SetBool("estaSaltando", false);
         }
+
+        if (collision.gameObject.tag == "Obstacle")
+        {
+            gameMananger.gameOver = true;
+        }
     }
+
+   
+
 }
